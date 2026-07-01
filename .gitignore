@@ -1,0 +1,19 @@
+# Sekrety – NIGDY nie commituj
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Cache / logi
+*.log
+.cache/
+requests_cache.sqlite
+
+# IDE
+.vscode/
+.idea/

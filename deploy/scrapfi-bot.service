@@ -1,0 +1,40 @@
+# =====================================================================
+#  systemd unit dla bota ScrapFi (Raspberry Pi / Linux)
+#
+#  Instalacja (zakładamy użytkownika "pi" i katalog /home/pi/scrapfi):
+#    sudo cp deploy/scrapfi-bot.service /etc/systemd/system/
+#    sudo systemctl daemon-reload
+#    sudo systemctl enable scrapfi-bot      # start po każdym reboocie
+#    sudo systemctl start scrapfi-bot       # start teraz
+#    systemctl status scrapfi-bot           # sprawdź stan
+#    journalctl -u scrapfi-bot -f           # podgląd logów na żywo
+#
+#  Dostosuj User, WorkingDirectory i ExecStart do swojej ścieżki/użytkownika.
+# =====================================================================
+[Unit]
+Description=ScrapFi - Telegram bot monitorujacy gielde i sentyment
+# Czekaj na realne połączenie z siecią (nie tylko na interfejs).
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=pi
+Group=pi
+WorkingDirectory=/home/pi/scrapfi
+
+# Uruchamiamy Pythona z wirtualnego środowiska (venv). Klucze API czyta z pliku .env
+# (obsługiwane przez python-dotenv wewnątrz config.py), więc EnvironmentFile nie jest wymagany.
+ExecStart=/home/pi/scrapfi/.venv/bin/python /home/pi/scrapfi/bot.py
+
+# Automatyczny restart po awarii lub reboocie.
+Restart=always
+RestartSec=10
+
+# Logi trafiają do journala (journalctl).
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=scrapfi
+
+[Install]
+WantedBy=multi-user.target

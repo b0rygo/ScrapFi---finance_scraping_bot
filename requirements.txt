@@ -1,0 +1,8 @@
+python-telegram-bot[job-queue]==22.8
+google-genai>=2.10.0
+finnhub-python>=2.4.29
+requests>=2.32.0
+python-dotenv>=1.0.1
+yfinance>=1.5.1
+ddgs>=9.14.4
+tzdata>=2024.1
